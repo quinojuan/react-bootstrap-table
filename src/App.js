@@ -32,6 +32,15 @@ const App = () => {
       dataField: "postId",
       text: "Product ID",
       sort: true,
+      validator: (newValue, row, column) => {
+        if(isNaN(newValue)) {
+          return {
+            valid: false,
+            message: "Please enter a numeric value"
+          }
+        }
+        return true
+      }
     },
     {
       dataField: "name",
@@ -50,7 +59,9 @@ const App = () => {
         condensed
         pagination={paginationFactory()}
         cellEdit={cellEditFactory({
-          mode: "click",
+          mode: "dbclick",
+          nonEditableRows: () => [1, 2], // no permite editar las dos primeras filas de datos (sin contar el encabezado)
+          blurToSave: true,
         })}
       />
     </div>
